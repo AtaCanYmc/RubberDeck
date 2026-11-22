@@ -1,6 +1,10 @@
 import { useState } from 'react';
+import { Bluetooth, Check, KeyRound, Keyboard } from 'lucide-react';
 import type { KeyboardLayout } from '../../protocol';
 import { useCommandQueue } from '../../hooks/useCommandQueue';
+import { HardwareCard } from '../ui/HardwareCard';
+import { SectionLabel } from '../ui/SectionLabel';
+import { TactileButton } from '../ui/TactileButton';
 
 export function DeviceConfigPanel() {
   const { isBusy, profile, sendFramedCommand } = useCommandQueue();
@@ -10,9 +14,16 @@ export function DeviceConfigPanel() {
 
   if (!profile.capabilities.bleNameConfig && !profile.capabilities.blePasskeyConfig) {
     return (
-      <section className="border border-zinc-800 bg-zinc-900/40 p-4 font-mono text-xs text-zinc-500">
-        Hardware configuration commands (layout, ble name, ble passkey) require the
-        RubberOrca profile.
+      <section className="space-y-4">
+        <SectionLabel
+          kicker="07 // HARDWARE NVS"
+          title="Device Configuration"
+          subtitle="ESP32-S3 persistent hardware parameters"
+        />
+        <HardwareCard className="p-4 font-mono text-xs text-zinc-500">
+          Hardware configuration commands (layout, ble name, ble passkey) require the
+          RubberOrca profile.
+        </HardwareCard>
       </section>
     );
   }
@@ -24,105 +35,152 @@ export function DeviceConfigPanel() {
       Number(passkey.trim()) <= 999999);
 
   return (
-    <section className="space-y-6">
-      <div>
-        <h2 className="text-sm font-semibold text-zinc-100">
-          RubberOrca Device Configuration
-        </h2>
-        <p className="font-mono text-xs text-zinc-500">
-          Persisted in ESP32-S3 NVS across reboots
-        </p>
-      </div>
+    <section className="space-y-5">
+      <SectionLabel
+        kicker="07 // HARDWARE NVS"
+        title="RubberOrca Configuration"
+        subtitle="Persisted in ESP32-S3 Non-Volatile Storage across reboots"
+      />
 
-      <div className="space-y-3 border border-zinc-800 bg-zinc-900/50 p-4">
-        <h3 className="text-xs font-semibold text-zinc-200">
-          USB HID Keyboard Layout
-        </h3>
-        <div className="flex flex-wrap items-center gap-2">
-          {profile.capabilities.keyboardLayouts.map((item) => (
-            <button
-              key={item}
-              type="button"
-              onClick={() => setLayout(item)}
-              className={`border px-3 py-1.5 font-mono text-xs ${
-                layout === item
-                  ? 'border-zinc-100 bg-zinc-100 text-zinc-950'
-                  : 'border-zinc-800 bg-zinc-900 text-zinc-300'
-              }`}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {/* Keyboard Layout Card */}
+        <HardwareCard className="flex flex-col justify-between gap-4 p-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-zinc-500">
+              <Keyboard className="h-3.5 w-3.5 text-[#FF5500]" />
+              USB HID Keymap
+            </div>
+            <h3 className="text-sm font-semibold text-zinc-100">Keyboard Layout</h3>
+            <p className="font-mono text-[11px] text-zinc-500">
+              Active keycode table for UTF-8 typing
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-2">
+              {profile.capabilities.keyboardLayouts.map((item) => {
+                const active = layout === item;
+                return (
+                  <button
+                    key={item}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => setLayout(item)}
+                    className={`flex items-center justify-between rounded-lg border px-3 py-2.5 font-mono text-xs transition-all active:scale-[0.97] ${
+                      active
+                        ? 'border-[#FF5500]/60 bg-[#FF5500]/12 text-zinc-50'
+                        : 'border-white/[0.08] bg-[#18181B] text-zinc-400 hover:text-zinc-200'
+                    }`}
+                  >
+                    <span>{item === 'us' ? 'US (us)' : 'TR-Q (tr_q)'}</span>
+                    {active && <Check className="h-3.5 w-3.5 text-[#FF5500]" />}
+                  </button>
+                );
+              })}
+            </div>
+
+            <TactileButton
+              variant="default"
+              disabled={isBusy}
+              onClick={() => void sendFramedCommand(`layout ${layout}`)}
+              className="w-full"
             >
-              {item === 'us' ? 'US (us)' : 'Turkish Q (tr_q)'}
-            </button>
-          ))}
-          <button
-            type="button"
-            disabled={isBusy}
-            onClick={() => void sendFramedCommand(`layout ${layout}`)}
-            className="border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-xs text-zinc-100 hover:bg-zinc-800 disabled:opacity-40"
-          >
-            Apply Layout
-          </button>
-        </div>
-      </div>
+              Apply Layout ({layout})
+            </TactileButton>
+          </div>
+        </HardwareCard>
 
-      <div className="space-y-3 border border-zinc-800 bg-zinc-900/50 p-4">
-        <h3 className="text-xs font-semibold text-zinc-200">
-          BLE Advertising Name
-        </h3>
-        <div className="flex flex-wrap gap-2">
-          <input
-            type="text"
-            maxLength={24}
-            value={bleName}
-            onChange={(e) => setBleName(e.target.value)}
-            className="flex-1 border border-zinc-800 bg-zinc-950 px-3 py-1.5 font-mono text-xs text-zinc-100 focus:border-zinc-500 focus:outline-none"
-          />
-          <button
-            type="button"
-            disabled={isBusy || bleName.trim().length === 0}
-            onClick={() =>
-              void sendFramedCommand(`ble name "${bleName.trim().replace(/"/g, '')}"`)
-            }
-            className="border border-zinc-100 bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-950 hover:bg-zinc-200 disabled:opacity-40"
-          >
-            Set Name
-          </button>
-        </div>
-      </div>
+        {/* BLE Name Card */}
+        <HardwareCard className="flex flex-col justify-between gap-4 p-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-zinc-500">
+              <Bluetooth className="h-3.5 w-3.5 text-[#FF5500]" />
+              GATT Identity
+            </div>
+            <h3 className="text-sm font-semibold text-zinc-100">
+              BLE Advertising Name
+            </h3>
+            <p className="font-mono text-[11px] text-zinc-500">
+              Up to 24 ASCII characters broadcast on 0xFFE0
+            </p>
+          </div>
 
-      <div className="space-y-3 border border-zinc-800 bg-zinc-900/50 p-4">
-        <h3 className="text-xs font-semibold text-zinc-200">
-          BLE Bonding Passkey
-        </h3>
-        <p className="font-mono text-[11px] text-zinc-500">
-          6-digit static passkey (100000..999999) or &quot;off&quot;
-        </p>
-        <div className="flex flex-wrap gap-2">
-          <input
-            type="text"
-            placeholder="123456 or off"
-            value={passkey}
-            onChange={(e) => setPasskey(e.target.value)}
-            className="flex-1 border border-zinc-800 bg-zinc-950 px-3 py-1.5 font-mono text-xs text-zinc-100 focus:border-zinc-500 focus:outline-none"
-          />
-          <button
-            type="button"
-            disabled={isBusy || !isPasskeyValid}
-            onClick={() =>
-              void sendFramedCommand(`ble passkey ${passkey.trim().toLowerCase()}`)
-            }
-            className="border border-zinc-100 bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-950 hover:bg-zinc-200 disabled:opacity-40"
-          >
-            Set Passkey
-          </button>
-          <button
-            type="button"
-            disabled={isBusy}
-            onClick={() => void sendFramedCommand('ble passkey off')}
-            className="border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-xs text-zinc-200 hover:bg-zinc-800 disabled:opacity-40"
-          >
-            Disable
-          </button>
-        </div>
+          <div className="space-y-3">
+            <input
+              type="text"
+              maxLength={24}
+              value={bleName}
+              onChange={(e) => setBleName(e.target.value)}
+              className="w-full rounded-lg border border-white/[0.09] bg-[#09090B] px-3 py-2.5 font-mono text-xs text-zinc-100 focus:border-[#FF5500]/60 focus:outline-none"
+            />
+            <TactileButton
+              variant="signal"
+              disabled={isBusy || bleName.trim().length === 0}
+              onClick={() =>
+                void sendFramedCommand(`ble name "${bleName.trim().replace(/"/g, '')}"`)
+              }
+              className="w-full"
+            >
+              Write BLE Name
+            </TactileButton>
+          </div>
+        </HardwareCard>
+
+        {/* BLE Passkey Card (Full Width) */}
+        <HardwareCard className="space-y-4 p-4 md:col-span-2">
+          <div className="flex flex-wrap items-start justify-between gap-2">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-zinc-500">
+                <KeyRound className="h-3.5 w-3.5 text-[#FF5500]" />
+                Link-Layer Security
+              </div>
+              <h3 className="text-sm font-semibold text-zinc-100">
+                BLE Bonding Passkey
+              </h3>
+              <p className="font-mono text-[11px] text-zinc-500">
+                Static 6-digit PIN (100000..999999) or &quot;off&quot; to disable bonding
+              </p>
+            </div>
+
+            {passkey.trim().length > 0 && (
+              <span
+                className={`rounded-md border px-2 py-0.5 font-mono text-[10px] uppercase ${
+                  isPasskeyValid
+                    ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
+                    : 'border-red-500/30 bg-red-500/10 text-red-300'
+                }`}
+              >
+                {isPasskeyValid ? 'VALID' : 'INVALID FORMAT'}
+              </span>
+            )}
+          </div>
+
+          <div className="flex flex-wrap gap-2.5">
+            <input
+              type="text"
+              placeholder="123456 or off"
+              value={passkey}
+              onChange={(e) => setPasskey(e.target.value)}
+              className="min-w-[180px] flex-1 rounded-lg border border-white/[0.09] bg-[#09090B] px-3 py-2.5 font-mono text-xs text-zinc-100 placeholder:text-zinc-600 focus:border-[#FF5500]/60 focus:outline-none"
+            />
+            <TactileButton
+              variant="signal"
+              disabled={isBusy || !isPasskeyValid}
+              onClick={() =>
+                void sendFramedCommand(`ble passkey ${passkey.trim().toLowerCase()}`)
+              }
+            >
+              Set Passkey
+            </TactileButton>
+            <TactileButton
+              variant="ghost"
+              disabled={isBusy}
+              onClick={() => void sendFramedCommand('ble passkey off')}
+            >
+              Disable Bonding
+            </TactileButton>
+          </div>
+        </HardwareCard>
       </div>
     </section>
   );

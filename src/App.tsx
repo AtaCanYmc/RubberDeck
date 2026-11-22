@@ -1,3 +1,4 @@
+import { AlertTriangle } from 'lucide-react';
 import { Header } from './components/layout/Header';
 import { NavBar } from './components/layout/NavBar';
 import { DeviceConfigPanel } from './components/panels/DeviceConfigPanel';
@@ -15,26 +16,37 @@ export function App() {
   const lastError = useDeckStore((s) => s.lastError);
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 text-zinc-100">
+    <div className="flex min-h-dvh flex-col bg-[#09090B] text-zinc-100">
       <Header />
-      <NavBar />
 
       {lastError && (
-        <div className="border-b border-red-900/80 bg-red-950/50 px-4 py-2 font-mono text-xs text-red-200">
-          <div className="mx-auto max-w-5xl">{lastError}</div>
+        <div
+          role="alert"
+          className="border-b border-red-500/25 bg-red-950/40 px-4 py-2 font-mono text-xs text-red-200"
+        >
+          <div className="mx-auto flex max-w-6xl items-center gap-2">
+            <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-red-400" />
+            <span className="truncate">{lastError}</span>
+          </div>
         </div>
       )}
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">
-        {activeTab === 'trackpad' && <TrackpadPanel />}
-        {activeTab === 'media' && <MediaPanel />}
-        {activeTab === 'presentation' && <PresentationPanel />}
-        {activeTab === 'security' && <SecurityPanel />}
-        {activeTab === 'console' && <TextConsolePanel />}
-        {activeTab === 'macros' && <MacroPanel />}
-        {activeTab === 'device' && <DeviceConfigPanel />}
-        {activeTab === 'firmware' && <FirmwareLinksPanel />}
-      </main>
+      <div className="mx-auto flex w-full max-w-6xl flex-1">
+        <NavBar />
+
+        <main className="min-w-0 flex-1 px-4 pt-5 pb-28 sm:px-6 md:py-7 md:pb-10">
+          <div key={activeTab} className="panel-enter mx-auto max-w-3xl">
+            {activeTab === 'trackpad' && <TrackpadPanel />}
+            {activeTab === 'media' && <MediaPanel />}
+            {activeTab === 'presentation' && <PresentationPanel />}
+            {activeTab === 'security' && <SecurityPanel />}
+            {activeTab === 'console' && <TextConsolePanel />}
+            {activeTab === 'macros' && <MacroPanel />}
+            {activeTab === 'device' && <DeviceConfigPanel />}
+            {activeTab === 'firmware' && <FirmwareLinksPanel />}
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

@@ -1,8 +1,18 @@
-import { Bluetooth, Cable, Cpu, PlugZap, Unplug } from 'lucide-react';
+import { Bluetooth, Cable, PlugZap, Radio, Unplug } from 'lucide-react';
 import { DEVICE_PROFILES, type DeviceProfileId } from '../../protocol';
 import type { TransportKind } from '../../transport';
+import { useCommandQueue } from '../../hooks/useCommandQueue';
 import { useDeviceConnection } from '../../hooks/useDeviceConnection';
+import { triggerHaptic } from '../../services/haptics';
 import { selectActiveProfile, useDeckStore } from '../../store/useDeckStore';
+import { StatusLed, type LedTone } from '../ui/StatusLed';
+
+const TRANSPORT_SHORT: Record<TransportKind, string> = {
+  'capacitor-ble': 'BLE',
+  'web-bluetooth': 'BLE',
+  'web-serial': 'SERIAL',
+  mock: 'MOCK',
+};
 
 const TRANSPORT_LABELS: Record<TransportKind, string> = {
   'capacitor-ble': 'Native BLE',
@@ -14,6 +24,15 @@ const TRANSPORT_LABELS: Record<TransportKind, string> = {
 export function Header() {
   const profile = useDeckStore(selectActiveProfile);
   const setProfileId = useDeckStore((s) => s.setProfileId);
+  const hapticsEnabled = useDeckStore((s) => s.hapticsEnabled);
+  const lastTxId = useDeckStore((s) => {
+    for (let i = s.logs.length - 1; i >= 0; i -= 1) {
+      if (s.logs[i].direction === 'tx') return s.logs[i].id;
+    }
+    return 0;
+  });
+
+  const { isBusy } = useCommandQueue();
   const {
     transportKind,
     availableTransports,
@@ -25,45 +44,61 @@ export function Header() {
     disconnect,
   } = useDeviceConnection();
 
-  const statusColor =
+  const ledTone: LedTone =
     connectionState === 'connected'
-      ? 'bg-emerald-500'
+      ? transportKind === 'mock'
+        ? 'amber'
+        : 'green'
       : connectionState === 'connecting' || connectionState === 'scanning'
-        ? 'bg-amber-400'
+        ? 'amber'
         : connectionState === 'error'
-          ? 'bg-red-500'
-          : 'bg-zinc-600';
+          ? 'red'
+          : 'off';
+
+  const ledPulse =
+    connectionState === 'connecting' ||
+    connectionState === 'scanning' ||
+    (isConnected && isBusy);
+
+  const handleProfileSwitch = (id: DeviceProfileId) => {
+    if (id === profile.id) return;
+    void triggerHaptic(hapticsEnabled);
+    setProfileId(id);
+  };
+
+  const handleToggleConnection = () => {
+    void triggerHaptic(hapticsEnabled);
+    if (isConnected) {
+      void disconnect();
+    } else {
+      void connect();
+    }
+  };
 
   return (
-    <header className="border-b border-zinc-800 bg-zinc-950 px-4 py-3">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center border border-zinc-700 bg-zinc-900">
-            <Cpu className="h-4 w-4 text-zinc-100" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-sm font-semibold tracking-tight text-zinc-50">
+    <header className="pt-safe sticky top-0 z-30 border-b border-white/[0.08] bg-[#09090B]/90 backdrop-blur-md">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-4">
+        {/* Left: Wordmark + Active Profile Switcher */}
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex items-center gap-2.5">
+            <span
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-white/[0.1] bg-[#141418] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+              aria-hidden="true"
+            >
+              <span className="h-2.5 w-2.5 rounded-[3px] bg-[#FF5500]" />
+            </span>
+            <div className="flex items-baseline gap-2">
+              <h1 className="text-sm font-semibold tracking-tight text-zinc-100">
                 RubberDeck
               </h1>
-              <span className="border border-zinc-800 bg-zinc-900 px-1.5 py-0.5 font-mono text-[10px] text-zinc-400">
-                v1
-              </span>
-            </div>
-            <div className="flex items-center gap-2 font-mono text-[11px] text-zinc-500">
-              <span className={`inline-block h-2 w-2 rounded-full ${statusColor}`} />
-              <span>
-                {isConnected && connectedDevice
-                  ? `${connectedDevice.name} (${profile.maxPayloadBytes} B max)`
-                  : `${connectionState.toUpperCase()} / ${profile.maxPayloadBytes} B max`}
+              <span className="hidden font-mono text-[10px] uppercase tracking-widest text-zinc-500 sm:inline">
+                v1 · {profile.maxPayloadBytes}B
               </span>
             </div>
           </div>
-        </div>
 
-        <div className="flex flex-wrap items-center gap-2">
           <div
-            className="inline-flex border border-zinc-800 bg-zinc-900 p-0.5"
+            className="hidden items-center rounded-lg border border-white/[0.08] bg-[#121215] p-0.5 sm:inline-flex"
             role="group"
             aria-label="Device Profile"
           >
@@ -73,11 +108,12 @@ export function Header() {
                 <button
                   key={id}
                   type="button"
-                  onClick={() => setProfileId(id)}
-                  className={`px-2.5 py-1 text-xs font-medium transition-colors ${
+                  aria-pressed={active}
+                  onClick={() => handleProfileSwitch(id)}
+                  className={`rounded-md px-2.5 py-1 font-mono text-[11px] font-medium transition-all active:scale-[0.97] ${
                     active
-                      ? 'bg-zinc-100 text-zinc-950'
-                      : 'text-zinc-400 hover:text-zinc-100'
+                      ? 'bg-[#202025] text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]'
+                      : 'text-zinc-500 hover:text-zinc-300'
                   }`}
                 >
                   {DEVICE_PROFILES[id].label}
@@ -85,50 +121,112 @@ export function Header() {
               );
             })}
           </div>
-
-          <label className="sr-only" htmlFor="transport-select">
-            Transport
-          </label>
-          <select
-            id="transport-select"
-            value={transportKind}
-            disabled={isConnected}
-            onChange={(e) => setTransportKind(e.target.value as TransportKind)}
-            className="border border-zinc-800 bg-zinc-900 px-2.5 py-1.5 font-mono text-xs text-zinc-200 disabled:opacity-50"
-          >
-            {availableTransports.map((kind) => (
-              <option key={kind} value={kind}>
-                {TRANSPORT_LABELS[kind]}
-              </option>
-            ))}
-          </select>
-
-          {isConnected ? (
-            <button
-              type="button"
-              onClick={() => void disconnect()}
-              className="inline-flex items-center gap-1.5 border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-xs font-medium text-zinc-100 hover:bg-zinc-800"
-            >
-              <Unplug className="h-3.5 w-3.5" />
-              Disconnect
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => void connect()}
-              className="inline-flex items-center gap-1.5 border border-zinc-100 bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-950 hover:bg-zinc-200"
-            >
-              {transportKind === 'web-serial' ? (
-                <Cable className="h-3.5 w-3.5" />
-              ) : transportKind === 'mock' ? (
-                <PlugZap className="h-3.5 w-3.5" />
-              ) : (
-                <Bluetooth className="h-3.5 w-3.5" />
-              )}
-              Connect
-            </button>
-          )}
         </div>
+
+        {/* Right: TX Telemetry + Interactive Connection Pill */}
+        <div className="flex items-center gap-2">
+          {/* Live TX / Queue Activity Indicator */}
+          <div
+            className="hidden items-center gap-1.5 rounded-lg border border-white/[0.07] bg-[#121215] px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-widest text-zinc-500 lg:flex"
+            title={isBusy ? 'Transmitting framed packet' : 'Command queue idle'}
+          >
+            <Radio
+              className={`h-3 w-3 transition-colors ${
+                isBusy ? 'text-[#FF5500]' : 'text-zinc-600'
+              }`}
+            />
+            <span className="tabular-nums">
+              {isBusy ? 'TX BUSY' : lastTxId > 0 ? `TX #${lastTxId}` : 'TX IDLE'}
+            </span>
+          </div>
+
+          {/* Connection Pill */}
+          <div className="flex items-center rounded-full border border-white/[0.1] bg-[#121215] p-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+            <label className="sr-only" htmlFor="transport-select">
+              Transport
+            </label>
+            <select
+              id="transport-select"
+              value={transportKind}
+              disabled={isConnected}
+              onChange={(e) => setTransportKind(e.target.value as TransportKind)}
+              className="rounded-l-full bg-transparent py-1 pl-2.5 pr-1 font-mono text-[11px] font-medium text-zinc-300 focus:outline-none disabled:opacity-60"
+            >
+              {availableTransports.map((kind) => (
+                <option key={kind} value={kind} className="bg-[#121215] text-zinc-100">
+                  {TRANSPORT_LABELS[kind]}
+                </option>
+              ))}
+            </select>
+
+            <span className="mx-1 h-3.5 w-px bg-white/[0.08]" aria-hidden="true" />
+
+            <button
+              type="button"
+              onClick={handleToggleConnection}
+              className={`inline-flex select-none items-center gap-2 rounded-full px-3 py-1 font-mono text-[11px] font-medium transition-all active:scale-[0.97] ${
+                isConnected
+                  ? 'bg-emerald-500/12 text-emerald-300 hover:bg-emerald-500/20'
+                  : 'bg-[#FF5500] text-[#09090B] hover:bg-[#ff6a1f]'
+              }`}
+            >
+              <StatusLed
+                tone={ledTone}
+                pulse={ledPulse}
+                label={`Connection ${connectionState}`}
+              />
+              {isConnected ? (
+                <>
+                  <span className="max-w-[96px] truncate">
+                    {connectedDevice ? connectedDevice.name : TRANSPORT_SHORT[transportKind]}
+                  </span>
+                  <Unplug className="h-3 w-3 opacity-80" />
+                </>
+              ) : (
+                <>
+                  {transportKind === 'web-serial' ? (
+                    <Cable className="h-3 w-3" />
+                  ) : transportKind === 'mock' ? (
+                    <PlugZap className="h-3 w-3" />
+                  ) : (
+                    <Bluetooth className="h-3 w-3" />
+                  )}
+                  <span>Connect</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Profile Switcher Row */}
+      <div className="flex items-center justify-between border-t border-white/[0.05] px-4 py-1.5 sm:hidden">
+        <div
+          className="inline-flex rounded-md border border-white/[0.08] bg-[#121215] p-0.5"
+          role="group"
+          aria-label="Device Profile Mobile"
+        >
+          {(Object.keys(DEVICE_PROFILES) as DeviceProfileId[]).map((id) => {
+            const active = profile.id === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                aria-pressed={active}
+                onClick={() => handleProfileSwitch(id)}
+                className={`rounded px-2 py-0.5 font-mono text-[10px] font-medium transition-colors ${
+                  active ? 'bg-[#202025] text-zinc-100' : 'text-zinc-500'
+                }`}
+              >
+                {DEVICE_PROFILES[id].label}
+              </button>
+            );
+          })}
+        </div>
+
+        <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 tabular-nums">
+          {isBusy ? 'TX BUSY' : `${profile.maxPayloadBytes} B MAX`}
+        </span>
       </div>
     </header>
   );
