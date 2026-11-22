@@ -6,6 +6,11 @@
 
 [![CI](https://github.com/AtaCanYmc/RubberDeck/actions/workflows/ci.yml/badge.svg)](https://github.com/AtaCanYmc/RubberDeck/actions/workflows/ci.yml)
 [![Deploy GitHub Pages](https://github.com/AtaCanYmc/RubberDeck/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/AtaCanYmc/RubberDeck/actions/workflows/deploy-pages.yml)
+[![Release](https://img.shields.io/github/v/release/AtaCanYmc/RubberDeck)](https://github.com/AtaCanYmc/RubberDeck/releases)
+[![Live PWA](https://img.shields.io/badge/PWA-Live-ff5500?logo=pwa&logoColor=white)](https://atacanymc.github.io/RubberDeck/)
+[![React 19](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)](package.json)
+[![TypeScript 5.8](https://img.shields.io/badge/TypeScript-5.8-3178c6?logo=typescript&logoColor=white)](tsconfig.json)
+[![Capacitor 8](https://img.shields.io/badge/Capacitor-8-119eff?logo=capacitor&logoColor=white)](capacitor.config.ts)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Control PWA and Capacitor 8 mobile application for [RubberOtter](https://github.com/AtaCanYmc/RubberOtter) and [RubberOrca](https://github.com/AtaCanYmc/RubberOrca) USB HID and BLE 5.0 hardware.
