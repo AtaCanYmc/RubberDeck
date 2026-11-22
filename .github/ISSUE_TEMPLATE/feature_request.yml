@@ -1,0 +1,39 @@
+name: Feature Request
+description: Propose a new feature, transport improvement, or panel capability
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check existing issues and [ROADMAP.md](../../ROADMAP.md) to confirm this proposal is not already tracked.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Technical limitation or workflow gap this feature addresses.
+      placeholder: When controlling RubberOrca over BLE...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: Requested behavior, protocol command, or UI panel changes.
+      placeholder: Add support for...
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Alternative designs or workarounds evaluated.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Contributor Checklist
+      options:
+        - label: I searched existing issues and pull requests before submitting.
+          required: true
+        - label: This proposal stays within RubberDeck scope and excludes firmware flashing binaries.
+          required: true

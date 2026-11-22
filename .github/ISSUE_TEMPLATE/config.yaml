@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security Vulnerabilities
+    url: https://github.com/AtaCanYmc/RubberDeck/security/policy
+    about: Report security vulnerabilities privately according to SECURITY.md.
+  - name: RubberOtter Firmware Issues
+    url: https://github.com/AtaCanYmc/RubberOtter/issues
+    about: Report firmware or flashing issues for ATmega32U4 / HM-10 / ESP32 RubberOtter hardware.
+  - name: RubberOrca Firmware Issues
+    url: https://github.com/AtaCanYmc/RubberOrca/issues
+    about: Report firmware or flashing issues for ESP32-S3 RubberOrca hardware.
