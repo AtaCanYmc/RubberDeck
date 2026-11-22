@@ -81,12 +81,14 @@ Repository layout:
 ```text
 RubberDeck/
 ├── .github/                  # CI, GitHub Pages, Release Please, Dependabot, templates
+├── docs/                     # Architecture, wire protocol, and transport specifications
 ├── public/
 │   └── favicon.svg           # PWA icon asset
 ├── src/
 │   ├── components/
 │   │   ├── layout/           # Header.tsx, NavBar.tsx
-│   │   └── panels/           # DeviceConfig, FirmwareLinks, Macro, Media, Presentation, Security, TextConsole, Trackpad
+│   │   ├── panels/           # DeviceConfig, FirmwareLinks, Macro, Media, Presentation, Security, TextConsole, Trackpad
+│   │   └── ui/               # HardwareCard, SectionLabel, StatusLed, TactileButton
 │   ├── hooks/                # useDeviceConnection.ts, useCommandQueue.ts
 │   ├── protocol/             # Pure TypeScript codec, byteMap, constants, profiles, commandValidator, commandQueue
 │   ├── services/             # haptics.ts
@@ -139,6 +141,7 @@ Yes. `vite-plugin-pwa` precaches the static application bundle via Workbox, and 
 
 ## Governance and License
 
+- Technical documentation index: [docs/README.md](docs/README.md) ([architecture](docs/architecture.md), [protocol](docs/protocol.md), [transports](docs/transports.md))
 - Contribution workflow and commit conventions: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Vulnerability reporting and response SLA: [SECURITY.md](SECURITY.md)
 - Planned milestones: [ROADMAP.md](ROADMAP.md)
