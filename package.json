@@ -23,7 +23,7 @@
     "@capacitor/haptics": "^8.0.2",
     "@capacitor/ios": "^8.5.1",
     "@capacitor/status-bar": "^8.0.3",
-    "lucide-react": "^0.511.0",
+    "lucide-react": "^1.75.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "zustand": "^5.0.5"
