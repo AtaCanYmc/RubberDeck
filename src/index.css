@@ -3,6 +3,7 @@
 @layer base {
   :root {
     color-scheme: dark;
+    accent-color: #ff5500;
     --canvas: #09090b;
     --canvas-elev: #0c0c0e;
     --surface: #121215;
@@ -161,6 +162,83 @@
 
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Branded customizable <select> (progressive enhancement) */
+.hw-select,
+.hw-select::picker(select) {
+  appearance: base-select;
+}
+
+.hw-select {
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.hw-select::picker(select) {
+  background-color: var(--surface);
+  color: #f4f4f5;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 0.625rem;
+  padding: 0.25rem;
+  margin-block-start: 0.375rem;
+  box-shadow: var(--bevel-top), 0 12px 28px -8px rgba(0, 0, 0, 0.85);
+}
+
+.hw-select::picker-icon {
+  color: #a1a1aa;
+  font-size: 0.65rem;
+}
+
+.hw-select option {
+  padding: 0.45rem 0.625rem;
+  border-radius: 0.375rem;
+  color: #e4e4e7;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.hw-select option:hover,
+.hw-select option:focus-visible {
+  background-color: var(--surface-3);
+  color: #fafafa;
+}
+
+.hw-select option::checkmark {
+  color: var(--signal);
+}
+
+/* Standardized accessible scrollbars with >= 3:1 thumb contrast */
+.hw-scroller {
+  --scrollbar-thumb: #71717a;
+  --scrollbar-track: #0a0a0d;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+@supports not (scrollbar-color: auto) {
+  .hw-scroller::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .hw-scroller::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 9999px;
+    border: 2px solid var(--scrollbar-track);
+  }
+
+  .hw-scroller::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+}
+
+/* Auto-sizing textareas with vertical resize fallback */
+.hw-textarea {
+  field-sizing: content;
+  resize: vertical;
+  min-block-size: 4.5rem;
+  max-block-size: 14rem;
 }
 
 @keyframes panelIn {

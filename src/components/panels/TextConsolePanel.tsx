@@ -77,7 +77,7 @@ export function TextConsolePanel() {
               value={command}
               onChange={(e) => setCommand(e.target.value)}
               placeholder='type "hello" && delay 150 && enter'
-              className="block w-full resize-none bg-transparent p-3 font-mono text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none"
+              className="hw-textarea block w-full bg-transparent p-3 font-mono text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none"
             />
             <div className="h-1 w-full bg-zinc-900">
               <div
@@ -123,7 +123,7 @@ export function TextConsolePanel() {
           <span className="tabular-nums">{logs.length} ENTRIES</span>
         </div>
 
-        <div className="h-64 overflow-y-auto p-3.5 font-mono text-xs">
+        <div className="hw-scroller h-64 overflow-y-auto p-3.5 font-mono text-xs">
           {logs.length === 0 ? (
             <p className="text-zinc-600">
               // Queue idle. Connect a transport and dispatch a frame to inspect traffic.

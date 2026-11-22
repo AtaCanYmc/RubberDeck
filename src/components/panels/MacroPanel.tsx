@@ -115,7 +115,7 @@ export function MacroPanel() {
               rows={2}
               value={body}
               onChange={(e) => setBody(e.target.value)}
-              className="w-full rounded-lg border border-white/[0.09] bg-[#09090B] p-3 font-mono text-xs text-zinc-100 focus:border-[#FF5500]/60 focus:outline-none"
+              className="hw-textarea w-full rounded-lg border border-white/[0.09] bg-[#09090B] p-3 font-mono text-xs text-zinc-100 focus:border-[#FF5500]/60 focus:outline-none"
             />
 
             <div className="flex flex-wrap items-center gap-2.5">

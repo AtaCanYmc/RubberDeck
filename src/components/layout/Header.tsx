@@ -147,10 +147,11 @@ export function Header() {
             </label>
             <select
               id="transport-select"
+              name="transport"
               value={transportKind}
               disabled={isConnected}
               onChange={(e) => setTransportKind(e.target.value as TransportKind)}
-              className="rounded-l-full bg-transparent py-1 pl-2.5 pr-1 font-mono text-[11px] font-medium text-zinc-300 focus:outline-none disabled:opacity-60"
+              className="hw-select min-w-[6.75rem] rounded-l-full bg-transparent py-1 pl-2.5 pr-1.5 font-mono text-[11px] font-medium text-zinc-300 focus:outline-none disabled:opacity-60"
             >
               {availableTransports.map((kind) => (
                 <option key={kind} value={kind} className="bg-[#121215] text-zinc-100">
