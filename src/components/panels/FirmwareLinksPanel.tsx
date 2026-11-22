@@ -1,4 +1,4 @@
-import { Cpu, ExternalLink, GitBranch } from 'lucide-react';
+import { Cpu, ExternalLink, GitBranch, ShieldCheck } from 'lucide-react';
 import { DEVICE_PROFILES } from '../../protocol';
 import { HardwareCard } from '../ui/HardwareCard';
 import { SectionLabel } from '../ui/SectionLabel';
@@ -72,6 +72,22 @@ export function FirmwareLinksPanel() {
           </HardwareCard>
         ))}
       </div>
+
+      <HardwareCard className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
+        <div className="flex items-center gap-2.5 text-xs text-zinc-400">
+          <ShieldCheck className="h-4 w-4 text-emerald-400" />
+          <span>Offline-only control. Zero analytics or third-party tracking.</span>
+        </div>
+        <a
+          href={`${import.meta.env.BASE_URL}privacy.html`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-200 underline decoration-white/25 underline-offset-4 hover:text-[#FF5500]"
+        >
+          <span>Privacy Policy</span>
+          <ExternalLink className="h-3 w-3" />
+        </a>
+      </HardwareCard>
     </section>
   );
 }

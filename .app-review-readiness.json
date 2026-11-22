@@ -1,0 +1,23 @@
+{
+  "appName": "RubberDeck",
+  "bundleId": "io.github.atacanymc.rubberdeck",
+  "lastReviewed": "2026-11-22",
+  "privacyPolicyUrl": "https://atacanymc.github.io/RubberDeck/privacy.html",
+  "supportUrl": "https://github.com/AtaCanYmc/RubberDeck/issues",
+  "checks": {
+    "noThirdPartyNetworkTracking": "pass",
+    "androidNeverForLocationEnabled": "pass",
+    "privacyPolicyHostedInRepo": "pass",
+    "mockDemoModeAvailable": "pass",
+    "nativeAndroidProjectGenerated": "pending",
+    "nativeIosProjectGenerated": "pending",
+    "iosBluetoothPurposeStringConfigured": "pending",
+    "iosPrivacyManifestConfigured": "pending",
+    "androidManifestNeverForLocationConfigured": "pending",
+    "hardwareDemoVideoRecorded": "pending",
+    "appStoreConnectPrivacyLabelsCompleted": "pending",
+    "googlePlayDataSafetyFormCompleted": "pending",
+    "apple2026AgeRatingCompleted": "pending",
+    "googlePlayClosedTest12Testers14Days": "pending"
+  }
+}

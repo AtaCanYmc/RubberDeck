@@ -39,7 +39,7 @@ export class CapacitorBleTransport implements Transport {
     if (this.initialized) {
       return;
     }
-    await BleClient.initialize();
+    await BleClient.initialize({ androidNeverForLocation: true });
     this.initialized = true;
   }
 
