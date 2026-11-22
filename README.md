@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="assets/logo.png" alt="RubberDeck Logo" width="180" />
+</div>
+
 # RubberDeck
 
 [![CI](https://github.com/AtaCanYmc/RubberDeck/actions/workflows/ci.yml/badge.svg)](https://github.com/AtaCanYmc/RubberDeck/actions/workflows/ci.yml)
