@@ -1,0 +1,69 @@
+<svg viewBox="0 0 880 460" width="880" height="460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Framed Command Sequence">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#a1a1aa"/>
+    </marker>
+    <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#ff5500"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="880" height="460" rx="12" fill="#121215"/>
+
+  <!-- LIFELINES (5 actors max) -->
+  <line x1="90" y1="68" x2="90" y2="430" stroke="rgba(244,244,245,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="265" y1="68" x2="265" y2="430" stroke="rgba(244,244,245,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="440" y1="68" x2="440" y2="430" stroke="rgba(244,244,245,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="615" y1="68" x2="615" y2="430" stroke="rgba(244,244,245,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="790" y1="68" x2="790" y2="430" stroke="rgba(244,244,245,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- ACTORS -->
+  <rect x="20" y="24" width="140" height="44" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <text x="90" y="50" fill="#f4f4f5" font-size="12" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">UI Panel</text>
+
+  <rect x="195" y="24" width="140" height="44" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <text x="265" y="50" fill="#f4f4f5" font-size="12" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">useCommandQueue</text>
+
+  <rect x="370" y="24" width="140" height="44" rx="6" fill="rgba(255,85,0,0.14)" stroke="#ff5500" stroke-width="1.2"/>
+  <text x="440" y="50" fill="#f4f4f5" font-size="12" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">CommandQueue</text>
+
+  <rect x="545" y="24" width="140" height="44" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <text x="615" y="50" fill="#f4f4f5" font-size="12" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">Active Transport</text>
+
+  <rect x="720" y="24" width="140" height="44" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <text x="790" y="50" fill="#f4f4f5" font-size="12" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">Hardware MCU</text>
+
+  <!-- ACTIVATION BARS -->
+  <rect x="261" y="108" width="8" height="292" fill="rgba(244,244,245,0.06)" stroke="#a1a1aa" stroke-width="0.8"/>
+  <rect x="436" y="148" width="8" height="212" fill="rgba(244,244,245,0.06)" stroke="#a1a1aa" stroke-width="0.8"/>
+  <rect x="611" y="228" width="8" height="92" fill="rgba(244,244,245,0.06)" stroke="#a1a1aa" stroke-width="0.8"/>
+
+  <!-- MESSAGES (top -> down) -->
+  <line x1="90" y1="108" x2="261" y2="108" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="175" y="100" fill="#f4f4f5" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="middle">sendFramedCommand(cmd)</text>
+
+  <line x1="269" y1="148" x2="436" y2="148" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="352" y="140" fill="#f4f4f5" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="middle">enqueueFramed(cmd, profile)</text>
+
+  <path d="M 444,176 H 472 V 200 H 446" fill="none" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="480" y="191" fill="#a1a1aa" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="start">validate &amp; encodeFrame(seq, cmd)</text>
+
+  <line x1="444" y1="228" x2="611" y2="228" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="527" y="220" fill="#f4f4f5" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="middle">write(frameBytes)</text>
+
+  <line x1="619" y1="264" x2="790" y2="264" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="704" y="256" fill="#a1a1aa" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="middle">BLE 20B / USB CDC 115200</text>
+
+  <line x1="790" y1="300" x2="619" y2="300" stroke="#a1a1aa" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <text x="704" y="292" fill="#a1a1aa" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="middle">6B ACK [02,01,SEQ,OK,CODE,03]</text>
+
+  <line x1="611" y1="320" x2="444" y2="320" stroke="#a1a1aa" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <text x="527" y="312" fill="#f4f4f5" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="middle">onData(chunk)</text>
+
+  <line x1="436" y1="360" x2="269" y2="360" stroke="#ff5500" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+  <text x="352" y="352" fill="#ff5500" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="middle">resolve({ seq, ok })</text>
+
+  <line x1="261" y1="400" x2="90" y2="400" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="175" y="392" fill="#f4f4f5" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="middle">appendLog &amp; triggerHaptic</text>
+</svg>

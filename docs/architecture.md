@@ -6,7 +6,9 @@ RubberDeck separates hardware wire protocol logic, transport I/O, client state, 
 
 ## Layer Overview
 
-[View Layer Overview Diagram (HTML + SVG)](diagrams/architecture-layers.html)
+![RubberDeck Layer Overview](diagrams/architecture-layers.svg)
+
+[Interactive HTML](diagrams/architecture-layers.html)
 
 ## Non-Negotiable Boundaries
 
@@ -17,7 +19,9 @@ RubberDeck separates hardware wire protocol logic, transport I/O, client state, 
 
 ## Framed Command Sequence
 
-[View Framed Command Sequence Diagram (HTML + SVG)](diagrams/framed-command-sequence.html)
+![Framed Command Sequence](diagrams/framed-command-sequence.svg)
+
+[Interactive HTML](diagrams/framed-command-sequence.html)
 
 ## UI Design System (`src/components/ui/`)
 
