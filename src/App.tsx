@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { Header } from './components/layout/Header';
 import { NavBar } from './components/layout/NavBar';
@@ -14,6 +15,13 @@ import { useDeckStore } from './store/useDeckStore';
 export function App() {
   const activeTab = useDeckStore((s) => s.activeTab);
   const lastError = useDeckStore((s) => s.lastError);
+  const theme = useDeckStore((s) => s.theme);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle('light', theme === 'light');
+    root.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
 
   return (
     <div className="flex min-h-dvh flex-col bg-[#09090B] text-zinc-100">

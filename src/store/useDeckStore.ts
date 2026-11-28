@@ -29,6 +29,8 @@ export type ActiveTab =
   | 'device'
   | 'firmware';
 
+export type ThemeMode = 'dark' | 'light';
+
 interface DeckState {
   profileId: DeviceProfileId;
   activeTab: ActiveTab;
@@ -38,6 +40,7 @@ interface DeckState {
   lastError: string | null;
   hapticsEnabled: boolean;
   trackpadSensitivity: number;
+  theme: ThemeMode;
   logs: readonly ConsoleLogEntry[];
 
   setProfileId: (id: DeviceProfileId) => void;
@@ -47,6 +50,7 @@ interface DeckState {
   setConnectedDevice: (device: TransportDevice | null) => void;
   setHapticsEnabled: (enabled: boolean) => void;
   setTrackpadSensitivity: (value: number) => void;
+  toggleTheme: () => void;
   appendLog: (direction: LogDirection, message: string) => void;
   clearLogs: () => void;
 }
@@ -66,6 +70,10 @@ export const useDeckStore = create<DeckState>((set) => ({
   lastError: null,
   hapticsEnabled: true,
   trackpadSensitivity: 1.4,
+  theme:
+    typeof window !== 'undefined' && window.localStorage.getItem('rubberdeck-theme') === 'light'
+      ? 'light'
+      : 'dark',
   logs: [],
 
   setProfileId: (profileId) =>
@@ -86,6 +94,14 @@ export const useDeckStore = create<DeckState>((set) => ({
   setConnectedDevice: (connectedDevice) => set({ connectedDevice }),
   setHapticsEnabled: (hapticsEnabled) => set({ hapticsEnabled }),
   setTrackpadSensitivity: (trackpadSensitivity) => set({ trackpadSensitivity }),
+  toggleTheme: () =>
+    set((state) => {
+      const next: ThemeMode = state.theme === 'dark' ? 'light' : 'dark';
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('rubberdeck-theme', next);
+      }
+      return { theme: next };
+    }),
 
   appendLog: (direction, message) =>
     set((state) => {

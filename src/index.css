@@ -266,3 +266,51 @@
     transform: none;
   }
 }
+
+/* Light mode overrides */
+html.light {
+  color-scheme: light;
+  --canvas: #f4f4f5;
+  --canvas-elev: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #e4e4e7;
+  --surface-3: #d4d4d8;
+  --hairline: rgba(9, 9, 11, 0.1);
+  --hairline-strong: rgba(9, 9, 11, 0.18);
+  --bevel-top: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  background-color: var(--canvas);
+  color: #18181b;
+}
+
+html.light body,
+html.light .bg-\[\#09090B\],
+html.light .bg-\[\#09090B\]\/90 {
+  background-color: var(--canvas);
+  color: #18181b;
+}
+
+html.light .bg-\[\#121215\],
+html.light .bg-\[\#141418\] {
+  background-color: var(--surface);
+}
+
+html.light .bg-\[\#18181B\],
+html.light .bg-\[\#202025\] {
+  background-color: var(--surface-2);
+}
+
+html.light .text-zinc-100,
+html.light .text-zinc-200 {
+  color: #18181b;
+}
+
+html.light .text-zinc-400,
+html.light .text-zinc-500 {
+  color: #52525b;
+}
+
+html.light .border-white\/\[0\.08\],
+html.light .border-white\/\[0\.05\],
+html.light .border-white\/\[0\.1\] {
+  border-color: var(--hairline);
+}

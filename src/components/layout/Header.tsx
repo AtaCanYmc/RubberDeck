@@ -1,4 +1,4 @@
-import { Bluetooth, Cable, PlugZap, Radio, Unplug } from 'lucide-react';
+import { Bluetooth, Cable, Moon, PlugZap, Radio, Sun, Unplug } from 'lucide-react';
 import { DEVICE_PROFILES, type DeviceProfileId } from '../../protocol';
 import type { TransportKind } from '../../transport';
 import { useCommandQueue } from '../../hooks/useCommandQueue';
@@ -25,6 +25,8 @@ export function Header() {
   const profile = useDeckStore(selectActiveProfile);
   const setProfileId = useDeckStore((s) => s.setProfileId);
   const hapticsEnabled = useDeckStore((s) => s.hapticsEnabled);
+  const theme = useDeckStore((s) => s.theme);
+  const toggleTheme = useDeckStore((s) => s.toggleTheme);
   const lastTxId = useDeckStore((s) => {
     for (let i = s.logs.length - 1; i >= 0; i -= 1) {
       if (s.logs[i].direction === 'tx') return s.logs[i].id;
@@ -195,6 +197,18 @@ export function Header() {
                   <span>Connect</span>
                 </>
               )}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                void triggerHaptic(hapticsEnabled);
+                toggleTheme();
+              }}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.08] bg-[#121215] text-zinc-400 transition-colors hover:text-zinc-100"
+            >
+              {theme === 'dark' ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
             </button>
           </div>
         </div>
