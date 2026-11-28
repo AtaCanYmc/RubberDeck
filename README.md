@@ -18,6 +18,8 @@ Control PWA and Capacitor 8 mobile application for [RubberOtter](https://github.
 Live PWA: https://atacanymc.github.io/RubberDeck/
 Demo Video: https://youtu.be/5-odyMa4obA
 
+[![RubberDeck Demo Video](https://img.youtube.com/vi/5-odyMa4obA/maxresdefault.jpg)](https://youtu.be/5-odyMa4obA)
+
 ## Table of Contents
 
 - [Quick Start](#quick-start)
