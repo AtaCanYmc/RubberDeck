@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RubberDeck — Layer Overview</title>
+<style>
+  :root {
+    --paper: #09090b;
+    --paper-2: #121215;
+    --paper-3: #18181b;
+    --ink: #f4f4f5;
+    --muted: #a1a1aa;
+    --soft: #949eb2;
+    --rule: rgba(255, 255, 255, 0.08);
+    --rule-solid: rgba(255, 255, 255, 0.14);
+    --accent: #ff5500;
+    --accent-tint: rgba(255, 85, 0, 0.14);
+    --link: #739fdf;
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    padding: 32px 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .frame {
+    width: 100%;
+    max-width: 960px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="eyebrow">RubberDeck · Architecture</div>
+  <h1>Layer Overview</h1>
+  <p class="subtitle">Unidirectional separation across UI panels, pure protocol logic, and hardware transports.</p>
+  <svg viewBox="0 0 880 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RubberDeck Layer Overview">
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#a1a1aa"/>
+      </marker>
+      <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#ff5500"/>
+      </marker>
+    </defs>
+
+    <!-- ZONES (bg -> zones -> arrows -> nodes) -->
+    <!-- Zone 1: UI & State -->
+    <rect x="20" y="20" width="240" height="380" rx="8" fill="rgba(244,244,245,0.02)" stroke="rgba(244,244,245,0.10)" stroke-width="0.8"/>
+    <rect x="36" y="24" width="96" height="12" rx="2" fill="#121215"/>
+    <text x="84" y="33" fill="#949eb2" font-size="8" font-family="JetBrains Mono, monospace" text-anchor="middle" letter-spacing="0.14em">UI &amp; STATE</text>
+
+    <!-- Zone 2: Protocol & Queue -->
+    <rect x="310" y="20" width="250" height="380" rx="8" fill="rgba(244,244,245,0.02)" stroke="rgba(244,244,245,0.10)" stroke-width="0.8"/>
+    <rect x="326" y="24" width="132" height="12" rx="2" fill="#121215"/>
+    <text x="392" y="33" fill="#949eb2" font-size="8" font-family="JetBrains Mono, monospace" text-anchor="middle" letter-spacing="0.14em">PURE PROTOCOL</text>
+
+    <!-- Zone 3: Transports -->
+    <rect x="610" y="20" width="250" height="380" rx="8" fill="rgba(244,244,245,0.02)" stroke="rgba(244,244,245,0.10)" stroke-width="0.8"/>
+    <rect x="626" y="24" width="110" height="12" rx="2" fill="#121215"/>
+    <text x="681" y="33" fill="#949eb2" font-size="8" font-family="JetBrains Mono, monospace" text-anchor="middle" letter-spacing="0.14em">TRANSPORTS</text>
+
+    <!-- ARROWS -->
+    <!-- UI -> Store -->
+    <line x1="140" y1="112" x2="140" y2="152" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <!-- UI -> Hooks -->
+    <line x1="140" y1="212" x2="140" y2="252" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <!-- Hooks -> Haptics -->
+    <line x1="140" y1="312" x2="140" y2="336" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+    <!-- Hooks -> CommandQueue (orthogonal elbow) -->
+    <path d="M 240,282 H 276 Q 284,282 284,274 V 132 Q 284,124 292,124 H 330" fill="none" stroke="#ff5500" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+
+    <!-- CommandQueue -> Validator & Codec -->
+    <line x1="435" y1="154" x2="435" y2="212" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+    <!-- CommandQueue -> Transport Interface -->
+    <path d="M 540,124 H 576 Q 584,124 584,132 V 116 Q 584,108 592,108 H 630" fill="none" stroke="#ff5500" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+
+    <!-- Transport Interface -> BLE / Serial / Mock -->
+    <path d="M 735,138 V 164 Q 735,172 735,172 V 188" fill="none" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <path d="M 735,248 V 274" fill="none" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <path d="M 735,334 V 350" fill="none" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+    <!-- NODES -->
+    <!-- UI Panels -->
+    <rect x="40" y="56" width="200" height="56" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="140" y="80" fill="#f4f4f5" font-size="13" font-weight="600" text-anchor="middle">React 19 Panels</text>
+    <text x="140" y="98" fill="#a1a1aa" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">src/components/</text>
+
+    <!-- Zustand Store -->
+    <rect x="40" y="154" width="200" height="56" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="140" y="178" fill="#f4f4f5" font-size="13" font-weight="600" text-anchor="middle">Zustand Store</text>
+    <text x="140" y="196" fill="#a1a1aa" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">src/store/useDeckStore.ts</text>
+
+    <!-- React Hooks -->
+    <rect x="40" y="254" width="200" height="56" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="140" y="278" fill="#f4f4f5" font-size="13" font-weight="600" text-anchor="middle">React Hooks</text>
+    <text x="140" y="296" fill="#a1a1aa" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">src/hooks/</text>
+
+    <!-- Haptics -->
+    <rect x="40" y="338" width="200" height="46" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="140" y="359" fill="#f4f4f5" font-size="12" font-weight="600" text-anchor="middle">Haptics Service</text>
+    <text x="140" y="375" fill="#a1a1aa" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">src/services/haptics.ts</text>
+
+    <!-- CommandQueue (Focal 1) -->
+    <rect x="332" y="94" width="208" height="60" rx="6" fill="rgba(255,85,0,0.14)" stroke="#ff5500" stroke-width="1.4"/>
+    <text x="436" y="119" fill="#f4f4f5" font-size="13" font-weight="600" text-anchor="middle">Sequential CommandQueue</text>
+    <text x="436" y="137" fill="#ff5500" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">src/protocol/commandQueue.ts</text>
+
+    <!-- Validator & PacketCodec -->
+    <rect x="332" y="214" width="208" height="60" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="436" y="239" fill="#f4f4f5" font-size="13" font-weight="600" text-anchor="middle">Validator &amp; PacketCodec</text>
+    <text x="436" y="257" fill="#a1a1aa" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">src/protocol/</text>
+
+    <!-- Transport Interface (Focal 2) -->
+    <rect x="632" y="78" width="208" height="60" rx="6" fill="rgba(255,85,0,0.14)" stroke="#ff5500" stroke-width="1.4"/>
+    <text x="736" y="103" fill="#f4f4f5" font-size="13" font-weight="600" text-anchor="middle">Transport Interface</text>
+    <text x="736" y="121" fill="#ff5500" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">src/transport/types.ts</text>
+
+    <!-- BLE -->
+    <rect x="632" y="190" width="208" height="58" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="736" y="214" fill="#f4f4f5" font-size="12" font-weight="600" text-anchor="middle">WebBluetooth / CapacitorBle</text>
+    <text x="736" y="232" fill="#a1a1aa" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">BLE 20B chunks</text>
+
+    <!-- Serial -->
+    <rect x="632" y="276" width="208" height="58" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="736" y="300" fill="#f4f4f5" font-size="12" font-weight="600" text-anchor="middle">WebSerialTransport</text>
+    <text x="736" y="318" fill="#a1a1aa" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">USB CDC 115200</text>
+
+    <!-- Mock -->
+    <rect x="632" y="352" width="208" height="36" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="736" y="374" fill="#a1a1aa" font-size="12" font-weight="500" text-anchor="middle">MockTransport</text>
+  </svg>
+</div>
+</body>
+</html>

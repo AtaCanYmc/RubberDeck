@@ -6,18 +6,7 @@ RubberDeck separates hardware wire protocol logic, transport I/O, client state, 
 
 ## Layer Overview
 
-```mermaid
-flowchart TD
-    UI["React 19 Panels & Primitives (src/components/)"] --> Store["Zustand Store (src/store/useDeckStore.ts)"]
-    UI --> Hooks["React Hooks (src/hooks/)"]
-    Hooks --> Queue["Sequential CommandQueue (src/protocol/commandQueue.ts)"]
-    Queue --> Validator["CommandValidator & PacketCodec (src/protocol/)"]
-    Queue --> Transport["Transport Interface (src/transport/types.ts)"]
-    Transport --> BLE["WebBluetoothTransport / CapacitorBleTransport"]
-    Transport --> Serial["WebSerialTransport"]
-    Transport --> Mock["MockTransport"]
-    Hooks --> Haptics["Haptics Service (src/services/haptics.ts)"]
-```
+[View Layer Overview Diagram (HTML + SVG)](diagrams/architecture-layers.html)
 
 ## Non-Negotiable Boundaries
 
@@ -28,25 +17,7 @@ flowchart TD
 
 ## Framed Command Sequence
 
-```mermaid
-sequenceDiagram
-    participant Panel as UI Panel
-    participant Hook as useCommandQueue
-    participant Queue as CommandQueue
-    participant Codec as packetCodec
-    participant Link as Active Transport
-    participant MCU as Hardware MCU
-
-    Panel->>Hook: sendFramedCommand(cmd)
-    Hook->>Queue: enqueueFramed(cmd, profile)
-    Queue->>Codec: validateCommandForProfile & encodeFrame(seq, cmd)
-    Queue->>Link: write(frameBytes)
-    Link->>MCU: BLE 20B chunks / USB CDC 115200
-    MCU-->>Link: 6-byte ACK [0x02, 0x01, SEQ, OK, CODE, 0x03]
-    Link-->>Queue: onData(chunk)
-    Queue-->>Hook: resolve({ seq, ok })
-    Hook->>Panel: appendLog & triggerHaptic
-```
+[View Framed Command Sequence Diagram (HTML + SVG)](diagrams/framed-command-sequence.html)
 
 ## UI Design System (`src/components/ui/`)
 

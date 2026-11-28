@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RubberDeck — Framed Command Sequence</title>
+<style>
+  :root {
+    --paper: #09090b;
+    --paper-2: #121215;
+    --paper-3: #18181b;
+    --ink: #f4f4f5;
+    --muted: #a1a1aa;
+    --soft: #949eb2;
+    --rule: rgba(255, 255, 255, 0.08);
+    --rule-solid: rgba(255, 255, 255, 0.14);
+    --accent: #ff5500;
+    --accent-tint: rgba(255, 85, 0, 0.14);
+    --link: #739fdf;
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    padding: 32px 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .frame {
+    width: 100%;
+    max-width: 960px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="eyebrow">RubberDeck · Protocol</div>
+  <h1>Framed Command Sequence</h1>
+  <p class="subtitle">End-to-end framed command lifecycle from UI panel to hardware MCU ACK.</p>
+  <svg viewBox="0 0 880 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Framed Command Sequence">
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#a1a1aa"/>
+      </marker>
+      <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#ff5500"/>
+      </marker>
+    </defs>
+
+    <!-- LIFELINES (5 actors max) -->
+    <line x1="90" y1="68" x2="90" y2="430" stroke="rgba(244,244,245,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="265" y1="68" x2="265" y2="430" stroke="rgba(244,244,245,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="440" y1="68" x2="440" y2="430" stroke="rgba(244,244,245,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="615" y1="68" x2="615" y2="430" stroke="rgba(244,244,245,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="790" y1="68" x2="790" y2="430" stroke="rgba(244,244,245,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+
+    <!-- ACTORS -->
+    <rect x="20" y="24" width="140" height="44" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="90" y="50" fill="#f4f4f5" font-size="12" font-weight="600" text-anchor="middle">UI Panel</text>
+
+    <rect x="195" y="24" width="140" height="44" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="265" y="50" fill="#f4f4f5" font-size="12" font-weight="600" text-anchor="middle">useCommandQueue</text>
+
+    <rect x="370" y="24" width="140" height="44" rx="6" fill="rgba(255,85,0,0.14)" stroke="#ff5500" stroke-width="1.2"/>
+    <text x="440" y="50" fill="#f4f4f5" font-size="12" font-weight="600" text-anchor="middle">CommandQueue</text>
+
+    <rect x="545" y="24" width="140" height="44" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="615" y="50" fill="#f4f4f5" font-size="12" font-weight="600" text-anchor="middle">Active Transport</text>
+
+    <rect x="720" y="24" width="140" height="44" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="790" y="50" fill="#f4f4f5" font-size="12" font-weight="600" text-anchor="middle">Hardware MCU</text>
+
+    <!-- ACTIVATION BARS -->
+    <rect x="261" y="108" width="8" height="292" fill="rgba(244,244,245,0.06)" stroke="#a1a1aa" stroke-width="0.8"/>
+    <rect x="436" y="148" width="8" height="212" fill="rgba(244,244,245,0.06)" stroke="#a1a1aa" stroke-width="0.8"/>
+    <rect x="611" y="228" width="8" height="92" fill="rgba(244,244,245,0.06)" stroke="#a1a1aa" stroke-width="0.8"/>
+
+    <!-- MESSAGES (top -> down) -->
+    <!-- 1. Panel -> Hook -->
+    <line x1="90" y1="108" x2="261" y2="108" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <text x="175" y="100" fill="#f4f4f5" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">sendFramedCommand(cmd)</text>
+
+    <!-- 2. Hook -> Queue -->
+    <line x1="269" y1="148" x2="436" y2="148" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <text x="352" y="140" fill="#f4f4f5" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">enqueueFramed(cmd, profile)</text>
+
+    <!-- 3. Queue self-call: validate & encodeFrame -->
+    <path d="M 444,176 H 472 V 200 H 446" fill="none" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <text x="480" y="191" fill="#a1a1aa" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="start">validate &amp; encodeFrame(seq, cmd)</text>
+
+    <!-- 4. Queue -> Link -->
+    <line x1="444" y1="228" x2="611" y2="228" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <text x="527" y="220" fill="#f4f4f5" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">write(frameBytes)</text>
+
+    <!-- 5. Link -> MCU -->
+    <line x1="619" y1="264" x2="790" y2="264" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <text x="704" y="256" fill="#a1a1aa" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">BLE 20B / USB CDC 115200</text>
+
+    <!-- 6. MCU -> Link (Return: dashed + filled) -->
+    <line x1="790" y1="300" x2="619" y2="300" stroke="#a1a1aa" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+    <text x="704" y="292" fill="#a1a1aa" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">6B ACK [02,01,SEQ,OK,CODE,03]</text>
+
+    <!-- 7. Link -> Queue (Return: dashed + filled) -->
+    <line x1="611" y1="320" x2="444" y2="320" stroke="#a1a1aa" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+    <text x="527" y="312" fill="#f4f4f5" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">onData(chunk)</text>
+
+    <!-- 8. Queue -> Hook (Headline success: solid accent) -->
+    <line x1="436" y1="360" x2="269" y2="360" stroke="#ff5500" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+    <text x="352" y="352" fill="#ff5500" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">resolve({ seq, ok })</text>
+
+    <!-- 9. Hook -> Panel -->
+    <line x1="261" y1="400" x2="90" y2="400" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <text x="175" y="392" fill="#f4f4f5" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="middle">appendLog &amp; triggerHaptic</text>
+  </svg>
+</div>
+</body>
+</html>
