@@ -9,6 +9,8 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v7
 
@@ -24,4 +26,6 @@ jobs:
       - run: npm run build
 
   governance:
+    permissions:
+      contents: read
     uses: ./.github/workflows/well-document-gate.yml
