@@ -5,6 +5,7 @@ import { useCommandQueue } from '../../hooks/useCommandQueue';
 import { useDeviceConnection } from '../../hooks/useDeviceConnection';
 import { triggerHaptic } from '../../services/haptics';
 import { selectActiveProfile, useDeckStore } from '../../store/useDeckStore';
+import { LOCALES, MESSAGES, type Locale } from '../../i18n';
 import { StatusLed, type LedTone } from '../ui/StatusLed';
 
 const TRANSPORT_SHORT: Record<TransportKind, string> = {
@@ -27,6 +28,9 @@ export function Header() {
   const hapticsEnabled = useDeckStore((s) => s.hapticsEnabled);
   const theme = useDeckStore((s) => s.theme);
   const toggleTheme = useDeckStore((s) => s.toggleTheme);
+  const locale = useDeckStore((s) => s.locale);
+  const setLocale = useDeckStore((s) => s.setLocale);
+  const t = MESSAGES[locale];
   const lastTxId = useDeckStore((s) => {
     for (let i = s.logs.length - 1; i >= 0; i -= 1) {
       if (s.logs[i].direction === 'tx') return s.logs[i].id;
@@ -194,18 +198,33 @@ export function Header() {
                   ) : (
                     <Bluetooth className="h-3 w-3" />
                   )}
-                  <span>Connect</span>
+                  <span>{t.connect}</span>
                 </>
               )}
             </button>
+            <select
+              value={locale}
+              onChange={(e) => {
+                void triggerHaptic(hapticsEnabled);
+                setLocale(e.target.value as Locale);
+              }}
+              aria-label={t.language}
+              className="h-8 rounded-lg border border-white/[0.08] bg-[#121215] px-1.5 font-mono text-[11px] font-medium text-zinc-300 outline-none focus-visible:ring-2 focus-visible:ring-[#FF5500]"
+            >
+              {LOCALES.map((loc) => (
+                <option key={loc.id} value={loc.id}>
+                  {loc.label}
+                </option>
+              ))}
+            </select>
             <button
               type="button"
               onClick={() => {
                 void triggerHaptic(hapticsEnabled);
                 toggleTheme();
               }}
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label={theme === 'dark' ? t.themeToLight : t.themeToDark}
+              title={theme === 'dark' ? t.themeToLight : t.themeToDark}
               className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.08] bg-[#121215] text-zinc-400 transition-colors hover:text-zinc-100"
             >
               {theme === 'dark' ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}

@@ -9,6 +9,7 @@ import type {
   TransportDevice,
   TransportKind,
 } from '../transport';
+import { LOCALES, type Locale } from '../i18n';
 
 export type LogDirection = 'tx' | 'rx' | 'info' | 'error';
 
@@ -41,6 +42,7 @@ interface DeckState {
   hapticsEnabled: boolean;
   trackpadSensitivity: number;
   theme: ThemeMode;
+  locale: Locale;
   logs: readonly ConsoleLogEntry[];
 
   setProfileId: (id: DeviceProfileId) => void;
@@ -51,6 +53,7 @@ interface DeckState {
   setHapticsEnabled: (enabled: boolean) => void;
   setTrackpadSensitivity: (value: number) => void;
   toggleTheme: () => void;
+  setLocale: (locale: Locale) => void;
   appendLog: (direction: LogDirection, message: string) => void;
   clearLogs: () => void;
 }
@@ -74,6 +77,11 @@ export const useDeckStore = create<DeckState>((set) => ({
     typeof window !== 'undefined' && window.localStorage.getItem('rubberdeck-theme') === 'light'
       ? 'light'
       : 'dark',
+  locale: (() => {
+    if (typeof window === 'undefined') return 'en';
+    const saved = window.localStorage.getItem('rubberdeck-locale');
+    return LOCALES.some((l) => l.id === saved) ? (saved as Locale) : 'en';
+  })(),
   logs: [],
 
   setProfileId: (profileId) =>
@@ -102,6 +110,12 @@ export const useDeckStore = create<DeckState>((set) => ({
       }
       return { theme: next };
     }),
+  setLocale: (locale) => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('rubberdeck-locale', locale);
+    }
+    set({ locale });
+  },
 
   appendLog: (direction, message) =>
     set((state) => {

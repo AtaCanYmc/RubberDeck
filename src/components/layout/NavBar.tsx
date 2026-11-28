@@ -15,6 +15,7 @@ import {
   selectActiveProfile,
   useDeckStore,
 } from '../../store/useDeckStore';
+import { MESSAGES } from '../../i18n';
 
 interface NavItem {
   readonly id: ActiveTab;
@@ -40,6 +41,8 @@ export function NavBar() {
   const setActiveTab = useDeckStore((s) => s.setActiveTab);
   const hapticsEnabled = useDeckStore((s) => s.hapticsEnabled);
   const setHapticsEnabled = useDeckStore((s) => s.setHapticsEnabled);
+  const locale = useDeckStore((s) => s.locale);
+  const t = MESSAGES[locale];
   const profile = useDeckStore(selectActiveProfile);
 
   const visibleItems = NAV_ITEMS.filter((item) => {
@@ -70,11 +73,12 @@ export function NavBar() {
           {visibleItems.map((item) => {
             const Icon = item.icon;
             const active = activeTab === item.id;
+            const label = t.tabs[item.id];
             return (
               <button
                 key={item.id}
                 type="button"
-                title={item.label}
+                title={label}
                 aria-current={active ? 'page' : undefined}
                 onClick={() => handleSelect(item.id)}
                 className={`group relative flex select-none items-center justify-center gap-3 rounded-lg px-2.5 py-2.5 text-xs font-medium transition-all active:scale-[0.97] lg:justify-start ${
@@ -94,7 +98,7 @@ export function NavBar() {
                     active ? 'text-[#FF5500]' : 'text-zinc-500 group-hover:text-zinc-300'
                   }`}
                 />
-                <span className="hidden truncate lg:inline">{item.label}</span>
+                <span className="hidden truncate lg:inline">{label}</span>
               </button>
             );
           })}
