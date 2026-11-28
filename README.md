@@ -79,6 +79,7 @@ RubberDeck/
 │   │   ├── panels/           # DeviceConfig, FirmwareLinks, Macro, Media, Presentation, Security, TextConsole, Trackpad
 │   │   └── ui/               # HardwareCard, SectionLabel, StatusLed, TactileButton
 │   ├── hooks/                # useDeviceConnection.ts, useCommandQueue.ts
+│   ├── i18n/                 # Locale files (en, tr, de, fr, es)
 │   ├── protocol/             # Pure TypeScript codec, byteMap, constants, profiles, commandValidator, commandQueue
 │   ├── services/             # haptics.ts
 │   ├── store/                # useDeckStore.ts (Zustand state)

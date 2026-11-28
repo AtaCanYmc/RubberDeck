@@ -11,3 +11,6 @@ android/
 ios/
 .idea/
 .vscode/
+
+# Generated launch video artifacts
+brag-output/
