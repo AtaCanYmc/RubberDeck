@@ -355,3 +355,16 @@ html.light .hw-keycap {
     inset 0 -2px 0 rgba(9, 9, 11, 0.08),
     0 2px 4px rgba(9, 9, 11, 0.08);
 }
+
+/* Mobile layout & Hallmark responsiveness */
+html,
+body {
+  overflow-x: clip;
+}
+
+button,
+a,
+select,
+input {
+  touch-action: manipulation;
+}

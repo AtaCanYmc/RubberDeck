@@ -209,7 +209,7 @@ export function Header() {
                 setLocale(e.target.value as Locale);
               }}
               aria-label={t.language}
-              className="h-8 rounded-lg border border-white/[0.08] bg-[#121215] px-1.5 font-mono text-[11px] font-medium text-zinc-300 outline-none focus-visible:ring-2 focus-visible:ring-[#FF5500]"
+              className="h-9 rounded-lg border border-white/[0.08] bg-[#121215] px-2 font-mono text-[11px] font-medium whitespace-nowrap text-zinc-300 outline-none focus-visible:ring-2 focus-visible:ring-[#FF5500]"
             >
               {LOCALES.map((loc) => (
                 <option key={loc.id} value={loc.id}>
@@ -225,7 +225,7 @@ export function Header() {
               }}
               aria-label={theme === 'dark' ? t.themeToLight : t.themeToDark}
               title={theme === 'dark' ? t.themeToLight : t.themeToDark}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.08] bg-[#121215] text-zinc-400 transition-colors hover:text-zinc-100"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-[#121215] text-zinc-400 transition-colors hover:text-zinc-100"
             >
               {theme === 'dark' ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
             </button>
