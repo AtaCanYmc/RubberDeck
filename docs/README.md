@@ -15,5 +15,6 @@ Technical reference for the RubberDeck control PWA and Capacitor 8 mobile applic
 
 ## Related Repositories
 
+- Demo video: https://youtu.be/5-odyMa4obA
 - RubberOtter firmware and Caterina flasher: https://github.com/AtaCanYmc/RubberOtter
 - RubberOrca ESP32-S3 firmware and Web Serial flasher: https://github.com/AtaCanYmc/RubberOrca

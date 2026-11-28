@@ -16,6 +16,7 @@
 Control PWA and Capacitor 8 mobile application for [RubberOtter](https://github.com/AtaCanYmc/RubberOtter) and [RubberOrca](https://github.com/AtaCanYmc/RubberOrca) USB HID and BLE 5.0 hardware.
 
 Live PWA: https://atacanymc.github.io/RubberDeck/
+Demo Video: https://youtu.be/5-odyMa4obA
 
 ## Table of Contents
 

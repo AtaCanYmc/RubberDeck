@@ -4,6 +4,7 @@
 
 ## Live App & Source
 - Live PWA: https://atacanymc.github.io/RubberDeck/
+- Demo Video: https://youtu.be/5-odyMa4obA
 - Repository: https://github.com/AtaCanYmc/RubberDeck
 - Privacy Policy: https://atacanymc.github.io/RubberDeck/privacy.html
 
