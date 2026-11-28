@@ -63,18 +63,7 @@ RubberDeck implements the RubberOtter v1 wire protocol over BLE 5.0 GATT (`0000f
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    UI["React Panels & Zustand Store"] --> Hooks["useDeviceConnection / useCommandQueue"]
-    Hooks --> Queue["CommandQueue (Sequential ACK)"]
-    Queue --> Codec["PacketCodec & CommandValidator"]
-    Codec --> Transport["Transport Interface"]
-    Transport --> WB["WebBluetoothTransport"]
-    Transport --> WS["WebSerialTransport"]
-    Transport --> CB["CapacitorBleTransport"]
-    Transport --> MT["MockTransport"]
-    WB & WS & CB --> HW["RubberOtter / RubberOrca Hardware"]
-```
+![RubberDeck Architecture](docs/diagrams/readme-architecture.svg)
 
 Repository layout:
 

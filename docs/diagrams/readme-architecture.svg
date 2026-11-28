@@ -1,0 +1,54 @@
+<svg viewBox="0 0 880 260" width="880" height="260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RubberDeck Architecture">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#a1a1aa"/>
+    </marker>
+    <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#ff5500"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="880" height="260" rx="12" fill="#121215"/>
+
+  <!-- ARROWS (drawn before nodes) -->
+  <line x1="176" y1="130" x2="212" y2="130" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="364" y1="130" x2="400" y2="130" stroke="#ff5500" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+  <line x1="564" y1="130" x2="600" y2="130" stroke="#ff5500" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+
+  <!-- Transport -> Hardware (orthogonal elbows) -->
+  <path d="M 716,64 H 736 Q 744,64 744,72 V 112 Q 744,120 752,120 H 764" fill="none" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="716" y1="130" x2="764" y2="130" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <path d="M 716,196 H 736 Q 744,196 744,188 V 148 Q 744,140 752,140 H 764" fill="none" stroke="#a1a1aa" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- NODES -->
+  <!-- 1. UI & Store -->
+  <rect x="24" y="98" width="152" height="64" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <text x="100" y="124" fill="#f4f4f5" font-size="12" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">React Panels</text>
+  <text x="100" y="143" fill="#a1a1aa" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="middle">&amp; Zustand Store</text>
+
+  <!-- 2. Hooks -->
+  <rect x="214" y="98" width="150" height="64" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <text x="289" y="124" fill="#f4f4f5" font-size="12" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">React Hooks</text>
+  <text x="289" y="143" fill="#a1a1aa" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="middle">useCommandQueue</text>
+
+  <!-- 3. CommandQueue & Codec (Focal 1) -->
+  <rect x="402" y="94" width="162" height="72" rx="6" fill="rgba(255,85,0,0.14)" stroke="#ff5500" stroke-width="1.4"/>
+  <text x="483" y="122" fill="#f4f4f5" font-size="12" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">CommandQueue</text>
+  <text x="483" y="141" fill="#ff5500" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" text-anchor="middle">Codec &amp; Validator</text>
+
+  <!-- 4. Transports -->
+  <rect x="602" y="40" width="114" height="48" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <text x="659" y="68" fill="#f4f4f5" font-size="11" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">WebBluetooth</text>
+
+  <rect x="602" y="106" width="114" height="48" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <text x="659" y="134" fill="#f4f4f5" font-size="11" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">WebSerial</text>
+
+  <rect x="602" y="172" width="114" height="48" rx="6" fill="#18181b" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <text x="659" y="200" fill="#f4f4f5" font-size="11" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">Capacitor BLE</text>
+
+  <!-- 5. Hardware (Focal 2) -->
+  <rect x="766" y="94" width="94" height="72" rx="6" fill="rgba(255,85,0,0.14)" stroke="#ff5500" stroke-width="1.4"/>
+  <text x="813" y="124" fill="#f4f4f5" font-size="11" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">RubberOtter</text>
+  <text x="813" y="142" fill="#ff5500" font-size="11" font-weight="600" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" text-anchor="middle">RubberOrca</text>
+</svg>
