@@ -1,0 +1,17 @@
+# RubberDeck
+
+> Unified BLE 5.0 and USB CDC control PWA and Capacitor 8 mobile application for RubberOtter and RubberOrca USB HID hardware.
+
+## Live App & Source
+- Live PWA: https://atacanymc.github.io/RubberDeck/
+- Repository: https://github.com/AtaCanYmc/RubberDeck
+- Privacy Policy: https://atacanymc.github.io/RubberDeck/privacy.html
+
+## Supported Hardware
+- **RubberOtter** (ATmega32U4 + HM-10 / ESP32): 384 B max payload; keyboard, mouse, media, jiggler, haptics, quick macros.
+- **RubberOrca** (ESP32-S3): 1024 B max payload; all RubberOtter features plus 16 NVS macros (`m0..m15`), `layout us|tr_q`, `ble name`, `ble passkey`.
+
+## Protocol & Transports
+- RubberOtter v1 framed wire protocol (`STX 0x02`, `VER 0x01`, `SEQ`, `LEN`, `PAYLOAD`, `XOR`, `ETX 0x03`) with 6-byte ACK.
+- Transports: Web Bluetooth (`0000ffe0`/`0000ffe1`), Web Serial (USB CDC 115200 baud), Capacitor BLE (iOS/Android), and MockTransport.
+- Offline-first via `vite-plugin-pwa` (Workbox); zero backend servers.
