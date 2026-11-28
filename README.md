@@ -130,7 +130,7 @@ Yes. `vite-plugin-pwa` precaches the static application bundle via Workbox, and 
 
 ## Governance and License
 
-- Technical documentation index: [docs/README.md](docs/README.md) ([architecture](docs/architecture.md), [protocol](docs/protocol.md), [transports](docs/transports.md))
+- Technical documentation index: [docs/README.md](docs/README.md) ([architecture](docs/architecture.md), [protocol](docs/protocol.md), [transports](docs/transports.md), [app-store-review](docs/app-store-review.md))
 - Contribution workflow and commit conventions: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Vulnerability reporting and response SLA: [SECURITY.md](SECURITY.md)
 - Planned milestones: [ROADMAP.md](ROADMAP.md)
